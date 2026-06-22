@@ -115,7 +115,7 @@
     var loop = params.get("loop") === "1";
     var autoplay = params.get("autoplay") === "1";
 
-    audio.loop = loop;
+    
 
     var audio  = document.getElementById('audio');
     var btn    = document.getElementById('play-btn');
@@ -134,8 +134,9 @@
       return m + ':' + (sec < 10 ? '0' : '') + sec;
     }
 
-    if(audioUrl) audio.src = audioUrl;
+    if(audioUrl) audio.src = decodeURIComponent(audioUrl);
     else audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    audio.loop = loop;
     if (autoplay) {
     audio.addEventListener("canplay", function autoPlay() {
         audio.removeEventListener("canplay", autoPlay);
@@ -151,7 +152,7 @@
     if(artistUrl) artistEl.textContent = artistUrl;
 
     if(imgUrl){
-      cover.innerHTML = '<img src="' + imgUrl + '" alt="cover">';
+      cover.innerHTML = '<img src="' + decodeURIComponent(imgUrl) + '" alt="cover">';
     }
 
     audio.addEventListener('loadedmetadata', function(){
