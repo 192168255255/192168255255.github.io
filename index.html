@@ -112,6 +112,10 @@
     var imgUrl   = params.get('img');
     var titleUrl = params.get('title');
     var artistUrl = params.get('artist');
+    var loop = params.get("loop") === "1";
+    var autoplay = params.get("autoplay") === "1";
+
+    audio.loop = loop;
 
     var audio  = document.getElementById('audio');
     var btn    = document.getElementById('play-btn');
@@ -132,7 +136,17 @@
 
     if(audioUrl) audio.src = audioUrl;
     else audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    if (autoplay) {
+    audio.addEventListener("canplay", function autoPlay() {
+        audio.removeEventListener("canplay", autoPlay);
 
+        audio.play().then(function () {
+            btn.innerHTML = "&#9208;"; // Pause icon
+        }).catch(function (err) {
+            console.log("Autoplay bị trình duyệt chặn:", err);
+        });
+    });
+}
     if(titleUrl) titleEl.textContent = titleUrl;
     if(artistUrl) artistEl.textContent = artistUrl;
 
